@@ -16,10 +16,12 @@ class Imbox:
 
     def __init__(self, hostname, username=None, password=None, ssl=True,
                  port=None, ssl_context=None, policy=None, starttls=False,
-                 vendor=None):
+                 vendor=None,
+                 proxy_type=False, proxy_host=None, proxy_port=None, rdns=True, proxy_username=None, proxy_password=None):
 
         self.server = ImapTransport(hostname, ssl=ssl, port=port,
-                                    ssl_context=ssl_context, starttls=starttls)
+                                    ssl_context=ssl_context, starttls=starttls,
+                                    proxy_type=proxy_type, proxy_host=proxy_host, proxy_port=proxy_port, rdns=rdns, proxy_username=proxy_username, proxy_password=proxy_password)
 
         self.hostname = hostname
         self.username = username
