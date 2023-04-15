@@ -21,6 +21,7 @@ class ImapTransport:
         proxy_type = ImapTransport.PROXY_TYPES[proxy_type.lower()]
 
         if proxy_type:
+            self.temp = socket.socket
             socks.set_default_proxy(proxy_type=proxy_type, addr=proxy_host, port=proxy_port, rdns=rdns, username=proxy_username, password=proxy_password)
             socket.socket = socks.socksocket
         if ssl:
@@ -36,6 +37,9 @@ class ImapTransport:
             self.server.starttls()
         logger.debug("Created IMAP4 transport for {host}:{port}"
                      .format(host=self.hostname, port=self.port))
+        
+    def __del__(self):
+        socket.socket = self.temp
 
     def list_folders(self):
         logger.debug("List all folders in mailbox")
